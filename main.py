@@ -20,13 +20,19 @@ def webhook():
     if "message" not in data:
         return "ok"
 
-    chat_id = str(data["message"]["chat"]["id"])
-    user_id = str(data["message"]["from"]["id"])
-    message_text = data["message"]["text"]
+chat_id = str(data["message"]["chat"]["id"])
+user_id = str(data["message"]["from"]["id"])
 
-    if user_id != ALLOWED_USER_ID:
-        send_message(chat_id, "⛔ Нет доступа.")
-        return "ok"
+if "text" not in data["message"]:
+    send_message(chat_id, "⛔ Я понимаю только текстовые сообщения.")
+    return "ok"
+
+message_text = data["message"]["text"]
+
+if user_id != ALLOWED_USER_ID:
+    send_message(chat_id, "⛔ Нет доступа.")
+    return "ok"
+
 
     response = client.chat.completions.create(
         model="gpt-4",
