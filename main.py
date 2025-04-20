@@ -32,9 +32,8 @@ response = client.chat.completions.create(
     model="gpt-4",
     messages=[{"role": "user", "content": message}]
 )
+reply = response.choices[0].message.content
 
-
-    reply = response.choices[0].message.content
     send_message(chat_id, reply)
     return "ok"
 
